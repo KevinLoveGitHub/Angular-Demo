@@ -9,7 +9,7 @@ export class GankService {
     return RESULTS;
   }
 
-  static getHeroesSlowly(): Promise<Result> {
+  getHeroesSlowly(): Promise<Result> {
     return new Promise(resolve => {
       // Simulate server latency with 2 second delay
       setTimeout(() => resolve(GankService.getGanks()), 2000);

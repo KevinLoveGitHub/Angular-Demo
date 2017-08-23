@@ -1,11 +1,13 @@
-<div (click)="toPhoto()">
-  <carousel [interval]="1000" [noWrap]="false" [noPause]="true">
+<div routerLink="/list">
+  <h1 *ngIf="data == null" style="align-items: center">Loading</h1>
+  <carousel *ngIf="data != null" [interval]="1000" [noWrap]="false" [noPause]="true">
     <slide *ngFor="let result of data.results">
       <div [style.backgroundImage]="'url(' + result.url + ')'"></div>
-      <!--<img src="{{result.url}}" alt="First slide">-->
     </slide>
   </carousel>
-  <h1>{{title}}</h1>
 </div>
+
+<a routerLink="/list">Heroes</a>
+<router-outlet></router-outlet>
 
 
