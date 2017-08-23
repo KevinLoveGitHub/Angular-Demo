@@ -1,16 +1,11 @@
 <div (click)="toPhoto()">
-  <h1>{{title}}</h1>
-  <carousel>
-    <slide>
-      <img src="http://valor-software.com/ngx-bootstrap/assets/images/nature/6.jpg" alt="First slide">
-    </slide>
-    <slide>
-      <img src="http://valor-software.com/ngx-bootstrap/assets/images/nature/4.jpg" alt="Second slide">
-    </slide>
-    <slide>
-      <img src="http://valor-software.com/ngx-bootstrap/assets/images/nature/5.jpg" alt="Third slide">
+  <carousel [interval]="1000" [noWrap]="false" [noPause]="true">
+    <slide *ngFor="let result of data.results">
+      <div [style.backgroundImage]="'url(' + result.url + ')'"></div>
+      <!--<img src="{{result.url}}" alt="First slide">-->
     </slide>
   </carousel>
+  <h1>{{title}}</h1>
 </div>
 
 
