@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Title} from '@angular/platform-browser';
+import {Title, DomSanitizer} from '@angular/platform-browser';
 import {Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
+import {MdIconRegistry} from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,11 @@ import 'rxjs/add/operator/map';
 export class AppComponent implements OnInit {
   title = '首页';
 
-  constructor(private titleService: Title, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private titleService: Title, private router: Router, private activatedRoute: ActivatedRoute, iconRegistry: MdIconRegistry, sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon(
+      'back',
+      sanitizer.bypassSecurityTrustResourceUrl('../assets/back.svg')
+    );
   }
 
   ngOnInit(): void {

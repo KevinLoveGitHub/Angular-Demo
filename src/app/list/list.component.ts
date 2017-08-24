@@ -10,7 +10,7 @@ import {GankService} from '../gank.service';
 export class ListComponent implements OnInit {
   url = 'https://ws1.sinaimg.cn/large/610dc034ly1fis7dvesn6j20u00u0jt4.jpg';
   data;
-  colsNum = 2;
+  colsNum = 4;
   gutterSize = 10;
   rowHeight = '4:1';
 
