@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {GankService} from '../gank.service';
 
 @Component({
   selector: 'app-list',
@@ -6,5 +7,17 @@ import {Component} from '@angular/core';
   styleUrls: ['./list.component.css'],
 })
 
-export class ListComponent {
+export class ListComponent  implements OnInit {
+  url = 'https://ws1.sinaimg.cn/large/610dc034ly1fis7dvesn6j20u00u0jt4.jpg';
+  data;
+
+  constructor(private gankService: GankService) {}
+
+  ngOnInit(): void {
+    this.getGanks();
+  }
+
+  getGanks(): void {
+    this.gankService.getResult('20').then(results => this.data = results);
+  }
 }

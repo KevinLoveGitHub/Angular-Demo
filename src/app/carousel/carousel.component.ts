@@ -8,8 +8,6 @@ import {GankService} from '../gank.service';
 })
 
 export class CarouselComponent implements OnInit {
-
-
   title = 'app';
   data;
 
@@ -21,5 +19,9 @@ export class CarouselComponent implements OnInit {
 
   getGanks(): void {
     this.gankService.getHeroesSlowly().then(results => this.data = results);
+  }
+
+  toPhoto(): void {
+
   }
 }
