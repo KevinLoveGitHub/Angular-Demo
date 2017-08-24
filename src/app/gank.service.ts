@@ -4,12 +4,14 @@ import {RESULTS} from './mock-ganks';
 import {Headers, Http} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
+import {Gank} from './beans/Gank';
 
 // 当 TypeScript 看到@Injectable()装饰器时，就会记下本服务的元数据。 如果 Angular 需要往这个服务中注入其它依赖，就会使用这些元数据
 @Injectable()
 export class GankService {
   private headers = new Headers({'Content-Type': 'application/json'});
   private resultUrl = 'http://gank.io/api/data/%E7%A6%8F%E5%88%A9';
+  detail: Gank;
 
   constructor(private http: Http) {
   }

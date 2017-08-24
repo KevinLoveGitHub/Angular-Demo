@@ -1,7 +1,7 @@
 <div style="padding: 10px" *ngIf="data != null">
 <md-grid-list cols="{{colsNum}}" gutterSize="{{gutterSize}}" rowHeight="{{rowHeight}}">
   <md-grid-tile *ngFor="let result of data.results" [rowspan]="4">
-    <div [style.backgroundImage]="'url(' + result.url + ')'"></div>
+    <div [style.backgroundImage]="'url(' + result.url + ')'"  [routerLink]="['/detail']" (click)="toDetail(result)"></div>
   </md-grid-tile>
 </md-grid-list>
 </div>

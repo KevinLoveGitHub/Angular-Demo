@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {ListComponent} from './list/list.component';
 import {CarouselComponent} from './carousel/carousel.component';
+import {DetailComponent} from "./detail/detail.component";
 
 const routes: Routes = [
   {
@@ -14,6 +15,11 @@ const routes: Routes = [
     path: 'carousel',
     component: CarouselComponent,
     data: {title: '首页轮播图'}
+  },
+  {
+    path: 'detail',
+    component: DetailComponent,
+    data: {title: '图片详情'}
   },
   {
     path: '',

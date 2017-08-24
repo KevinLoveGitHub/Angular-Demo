@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {GankService} from '../gank.service';
 import {ParamMap, ActivatedRoute} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
+import {Gank} from '../beans/Gank';
 
 @Component({
   selector: 'app-list',
@@ -10,7 +11,6 @@ import 'rxjs/add/operator/switchMap';
 })
 
 export class ListComponent implements OnInit {
-  url = 'https://ws1.sinaimg.cn/large/610dc034ly1fis7dvesn6j20u00u0jt4.jpg';
   data;
   colsNum = 4;
   gutterSize = 10;
@@ -30,5 +30,9 @@ export class ListComponent implements OnInit {
 
   getGanks(value: string): void {
     this.gankService.getResult(30, +value).then(results => this.data = results);
+  }
+
+  toDetail(result: Gank): void {
+    this.gankService.detail = result;
   }
 }

@@ -1,9 +1,18 @@
-<div [routerLink]="['/list']">
-  <h1 *ngIf="data == null" style="text-align: center; margin-top: 50px">Loading</h1>
-  <carousel *ngIf="data != null" [interval]="1000" [noWrap]="false" [noPause]="true">
-    <slide *ngFor="let result of data.results">
-      <div [style.backgroundImage]="'url(' + result.url + ')'"></div>
-    </slide>
-  </carousel>
-</div>
+<md-card class="example-card">
+  <md-card-header>
+    <div md-card-avatar class="example-header-image"></div>
+    <md-card-title>ID：{{detail._id}}</md-card-title>
+    <md-card-subtitle>Time：{{detail.createdAt}}</md-card-subtitle>
+  </md-card-header>
+  <img md-card-image src="{{detail.url}}">
+  <md-card-content>
+    <p>
+      {{detail.url}}
+    </p>
+  </md-card-content>
+  <md-card-actions>
+    <button md-button>LIKE</button>
+    <button md-button>SHARE</button>
+  </md-card-actions>
+</md-card><h1>detail</h1>
 

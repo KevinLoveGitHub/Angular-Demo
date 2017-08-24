@@ -11,14 +11,16 @@ import {AppRoutingModule} from './app-routing.module';
 import {HttpModule} from '@angular/http';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MdGridListModule, MdCardModule, MdIconModule} from '@angular/material';
+import {MdGridListModule, MdCardModule, MdIconModule, MdButtonModule} from '@angular/material';
+import {DetailComponent} from './detail/detail.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ListComponent,
-    CarouselComponent
+    CarouselComponent,
+    DetailComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +30,8 @@ import {MdGridListModule, MdCardModule, MdIconModule} from '@angular/material';
     AppRoutingModule,
     MdGridListModule,
     MdCardModule,
-    MdIconModule
+    MdIconModule,
+    MdButtonModule
   ],
   providers: [GankService],
   bootstrap: [AppComponent]

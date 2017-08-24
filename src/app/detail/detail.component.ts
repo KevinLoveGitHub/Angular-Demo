@@ -1,28 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {GankService} from '../gank.service';
-import {Result} from '../beans/Result';
+import {Gank} from '../beans/Gank';
 
 @Component({
-  selector: 'app-carousel',
-  templateUrl: './carousel.component.html',
-  styleUrls: ['./carousel.component.css'],
+  selector: 'app-detail',
+  templateUrl: './detail.component.html',
+  styleUrls: ['./detail.component.css'],
 })
 
-export class CarouselComponent implements OnInit {
-  data: Result;
+export class DetailComponent implements OnInit {
+  detail: Gank;
 
   constructor(private gankService: GankService) {
   }
 
   ngOnInit(): void {
-    this.getGanks();
-  }
-
-  getGanks(): void {
-    this.gankService.getResult(10, 1).then(results => this.data = results);
-  }
-
-  toPhoto(): void {
-
+    this.detail = this.gankService.detail;
+    console.log(this.detail);
   }
 }
