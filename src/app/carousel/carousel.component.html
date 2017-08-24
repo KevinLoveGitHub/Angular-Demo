@@ -1,4 +1,4 @@
-<div >
+<div style="padding: 5px">
   <h1 *ngIf="data == null" style="text-align: center; margin-top: 50px">Loading</h1>
   <carousel *ngIf="data != null" [interval]="1000" [noWrap]="false" [noPause]="true">
     <slide *ngFor="let result of data.results let index=index">

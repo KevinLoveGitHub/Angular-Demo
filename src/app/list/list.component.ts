@@ -13,7 +13,7 @@ import {Gank} from '../beans/Gank';
 export class ListComponent implements OnInit {
   data;
   colsNum = 4;
-  gutterSize = 10;
+  gutterSize = 5;
   rowHeight = '4:1';
 
   constructor(private gankService: GankService, private route: ActivatedRoute) {
