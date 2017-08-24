@@ -1,5 +1,5 @@
-import {Result} from './Result';
-import {Gank} from './Gank';
+import {Result} from './beans/Result';
+import {Gank} from './beans/Gank';
 
 const gank1 = new Gank('https://ws1.sinaimg.cn/large/610dc034ly1fitcjyruajj20u011h412.jpg');
 const gank2 = new Gank('https://ws1.sinaimg.cn/large/610dc034ly1fis7dvesn6j20u00u0jt4.jpg');

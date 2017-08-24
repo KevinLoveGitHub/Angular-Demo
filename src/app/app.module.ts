@@ -1,10 +1,12 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {RouterModule} from '@angular/router';
 
 import {AppComponent} from './app.component';
 import {ListComponent} from './list/list.component';
 import {CarouselModule} from 'ngx-bootstrap';
+import {CarouselComponent} from './carousel/carousel.component';
+import {GankService} from './gank.service';
+import {AppRoutingModule} from './app-routing.module';
 
 
 
@@ -12,18 +14,14 @@ import {CarouselModule} from 'ngx-bootstrap';
   declarations: [
     AppComponent,
     ListComponent,
+    CarouselComponent
   ],
   imports: [
     BrowserModule,
     CarouselModule.forRoot(),
-    RouterModule.forRoot([
-      {
-        path: 'list',
-        component: ListComponent
-      }
-    ])
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [GankService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
