@@ -25,8 +25,8 @@ export class GankService {
     });
   }
 
-  getResult(value: string): Promise<Result> {
-    const url = this.resultUrl + '/' + value + '/1';
+  getResult(pageSize: number, page: number): Promise<Result> {
+    const url = this.resultUrl + '/' + pageSize + '/' + page;
     // const url = 'http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1';
     return this.http.get(url)
       .map(function (result) {

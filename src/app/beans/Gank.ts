@@ -4,13 +4,14 @@ export class Gank {
   // desc: string;
   // publishedAt: string;
   // source: string;
-  // type: string;
+  type: string;
   url: string;
   // used: string;
   // who: string;
 
 
-  constructor(url: string) {
+  constructor(url: string, type: string) {
     this.url = url;
+    this.type = type;
   }
 }

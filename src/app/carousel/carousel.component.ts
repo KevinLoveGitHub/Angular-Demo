@@ -18,7 +18,7 @@ export class CarouselComponent implements OnInit {
   }
 
   getGanks(): void {
-    this.gankService.getHeroesSlowly().then(results => this.data = results);
+    this.gankService.getResult(10, 1).then(results => this.data = results);
   }
 
   toPhoto(): void {

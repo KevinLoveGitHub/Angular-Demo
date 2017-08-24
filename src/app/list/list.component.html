@@ -1,5 +1,5 @@
 <div style="padding: 10px" *ngIf="data != null">
-<md-grid-list cols="4" gutterSize="10" rowHeight="4:1">
+<md-grid-list cols="{{colsNum}}" gutterSize="{{gutterSize}}" rowHeight="{{rowHeight}}">
   <md-grid-tile *ngFor="let result of data.results" [rowspan]="4">
     <div [style.backgroundImage]="'url(' + result.url + ')'"></div>
   </md-grid-tile>

@@ -11,7 +11,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {HttpModule} from '@angular/http';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MdGridListModule} from '@angular/material';
+import {MdGridListModule, MdCardModule} from '@angular/material';
 
 
 @NgModule({
@@ -26,7 +26,8 @@ import {MdGridListModule} from '@angular/material';
     HttpModule,
     CarouselModule.forRoot(),
     AppRoutingModule,
-    MdGridListModule
+    MdGridListModule,
+    MdCardModule
   ],
   providers: [GankService],
   bootstrap: [AppComponent]

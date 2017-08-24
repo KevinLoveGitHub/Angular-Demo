@@ -7,17 +7,21 @@ import {GankService} from '../gank.service';
   styleUrls: ['./list.component.css'],
 })
 
-export class ListComponent  implements OnInit {
+export class ListComponent implements OnInit {
   url = 'https://ws1.sinaimg.cn/large/610dc034ly1fis7dvesn6j20u00u0jt4.jpg';
   data;
+  colsNum = 2;
+  gutterSize = 10;
+  rowHeight = '4:1';
 
-  constructor(private gankService: GankService) {}
+  constructor(private gankService: GankService) {
+  }
 
   ngOnInit(): void {
     this.getGanks();
   }
 
   getGanks(): void {
-    this.gankService.getResult('20').then(results => this.data = results);
+    this.gankService.getResult(10, 1).then(results => this.data = results);
   }
 }
