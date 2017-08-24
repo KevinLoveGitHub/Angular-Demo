@@ -1,4 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import {Title} from '@angular/platform-browser';
+import {Router, NavigationEnd, ActivatedRoute} from '@angular/router';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-root',
@@ -6,26 +10,29 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 
-export class AppComponent {
-  // title = 'app';
-  // data;
-  //
-  // constructor(private gankService: GankService) {}
-  //
-  // ngOnInit(): void {
-  //   this.getGanks();
-  // }
-  //
-  // getGanks(): void {
-  //   this.gankService.getHeroesSlowly().then(results => this.data = results);
-  // }
-  //
-  // toPhoto(): void {
-  //   const temp = this;
-  //   temp.title = 'title';
-  //   console.log(temp.data);
-  // }
+export class AppComponent implements OnInit {
+  title = '首页';
 
+  constructor(private titleService: Title, private router: Router, private activatedRoute: ActivatedRoute) {
+  }
+
+  ngOnInit(): void {
+    this.router.events
+      .filter(event => event instanceof NavigationEnd)
+      .map(() => this.activatedRoute)
+      .map(route => {
+        while (route.firstChild) {
+          route = route.firstChild;
+        }
+        return route;
+      })
+      .mergeMap(route => route.data)
+      .subscribe((event) => {
+        console.log('NavigationEnd:', event['title']);
+        this.titleService.setTitle(event['title']);
+        this.title = event['title'];
+      });
+  }
 }
 
 

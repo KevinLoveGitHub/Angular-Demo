@@ -1,5 +1,5 @@
 <div [routerLink]="['/list']">
-  <h1 *ngIf="data == null" style="align-items: center">Loading</h1>
+  <h1 *ngIf="data == null" style="text-align: center; margin-top: 50px">Loading</h1>
   <carousel *ngIf="data != null" [interval]="1000" [noWrap]="false" [noPause]="true">
     <slide *ngFor="let result of data.results">
       <div [style.backgroundImage]="'url(' + result.url + ')'"></div>

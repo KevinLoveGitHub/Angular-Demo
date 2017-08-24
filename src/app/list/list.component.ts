@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {GankService} from '../gank.service';
 
 @Component({
@@ -22,6 +22,6 @@ export class ListComponent implements OnInit {
   }
 
   getGanks(): void {
-    this.gankService.getResult(10, 1).then(results => this.data = results);
+    this.gankService.getResult(30, 2).then(results => this.data = results);
   }
 }

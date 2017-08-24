@@ -7,16 +7,19 @@ import {CarouselComponent} from './carousel/carousel.component';
 const routes: Routes = [
   {
     path: 'list',
-    component: ListComponent
+    component: ListComponent,
+    data: {title: '照片列表'}
   },
   {
     path: 'carousel',
-    component: CarouselComponent
+    component: CarouselComponent,
+    data: {title: '首页轮播图'}
   },
   {
     path: '',
     redirectTo: 'carousel',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    data: {title: '首页'}
   }
 ];
 

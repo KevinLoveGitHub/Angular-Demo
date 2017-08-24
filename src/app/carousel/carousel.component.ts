@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {GankService} from '../gank.service';
+import {Result} from '../beans/Result';
 
 @Component({
   selector: 'app-carousel',
@@ -8,10 +9,10 @@ import {GankService} from '../gank.service';
 })
 
 export class CarouselComponent implements OnInit {
-  title = 'app';
-  data;
+  data: Result;
 
-  constructor(private gankService: GankService) {}
+  constructor(private gankService: GankService) {
+  }
 
   ngOnInit(): void {
     this.getGanks();
