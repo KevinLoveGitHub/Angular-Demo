@@ -1,5 +1,7 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {GankService} from '../gank.service';
+import {ParamMap, ActivatedRoute} from '@angular/router';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-list',
@@ -14,14 +16,19 @@ export class ListComponent implements OnInit {
   gutterSize = 10;
   rowHeight = '4:1';
 
-  constructor(private gankService: GankService) {
+  constructor(private gankService: GankService, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.getGanks();
+    const temp = this;
+    this.route.paramMap
+      .switchMap((params: ParamMap) => params.get('index'))
+      .subscribe(result =>
+        temp.getGanks(result)
+      );
   }
 
-  getGanks(): void {
-    this.gankService.getResult(30, 2).then(results => this.data = results);
+  getGanks(value: string): void {
+    this.gankService.getResult(30, +value).then(results => this.data = results);
   }
 }

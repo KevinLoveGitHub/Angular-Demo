@@ -6,7 +6,7 @@ import {CarouselComponent} from './carousel/carousel.component';
 
 const routes: Routes = [
   {
-    path: 'list',
+    path: 'list/:index',
     component: ListComponent,
     data: {title: '照片列表'}
   },
