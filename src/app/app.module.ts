@@ -14,7 +14,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdGridListModule, MdCardModule, MdIconModule, MdButtonModule} from '@angular/material';
 import {DetailComponent} from './detail/detail.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +30,7 @@ import {DetailComponent} from './detail/detail.component';
     MdGridListModule,
     MdCardModule,
     MdIconModule,
-    MdButtonModule
+    MdButtonModule,
   ],
   providers: [GankService],
   bootstrap: [AppComponent]
