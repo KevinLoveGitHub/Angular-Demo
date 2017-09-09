@@ -1,0 +1,21 @@
+<div style="display: block;">
+  <!--ngModel指令实现双向数据绑定-->
+  <input [(ngModel)]="name">
+  <!--ngif并不是在显示和隐藏这条消息，它是在从 DOM 中添加和移除这个段落元素-->
+  <div *ngIf="name.length < 20">{{name}}</div>
+  <button [ngClass]="cssBig" (click)="onClick($event)"></button>
+
+  <div [ngClass]="currentClassed">[ngClass] binding to the classes property</div>
+
+  <table border=1>
+    <tr><td [attr.colspan]="1 + 1">One-Two</td></tr>
+    <tr><td>Five</td><td>Six</td></tr>
+  </table>
+
+  <!--单一值设置方式-->
+  <div [style.font-size]="isBig ? 'x-large' : 'smaller'">Hello , World</div>
+
+
+  <div [ngStyle]="currentStyles">Hello , World</div>
+  <div ></div>
+</div>

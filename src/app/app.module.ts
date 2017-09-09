@@ -13,18 +13,21 @@ import {HttpModule} from '@angular/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdGridListModule, MdCardModule, MdIconModule, MdButtonModule} from '@angular/material';
 import {DetailComponent} from './detail/detail.component';
-
+import { DataComponent } from './data/data.component';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
     ListComponent,
     CarouselComponent,
-    DetailComponent
+    DetailComponent,
+    DataComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
+    FormsModule,
     CarouselModule.forRoot(),
     AppRoutingModule,
     MdGridListModule,
