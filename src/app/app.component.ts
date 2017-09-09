@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {Title, DomSanitizer} from '@angular/platform-browser';
 import {Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import {MdIconRegistry} from '@angular/material';
+import {DataComponent} from './data/data.component';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +12,17 @@ import {MdIconRegistry} from '@angular/material';
   styleUrls: ['./app.component.css'],
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   title = '首页';
 
-  constructor(private titleService: Title, private router: Router, private activatedRoute: ActivatedRoute, iconRegistry: MdIconRegistry, sanitizer: DomSanitizer) {
+  @ViewChild('data')
+  private dataComponent: DataComponent;
+
+  constructor(private titleService: Title,
+              private router: Router,
+              private activatedRoute: ActivatedRoute,
+              iconRegistry: MdIconRegistry,
+              sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
       'back',
       sanitizer.bypassSecurityTrustResourceUrl('../assets/back.svg')
@@ -37,6 +45,15 @@ export class AppComponent implements OnInit {
         this.titleService.setTitle(event['title']);
         this.title = event['title'];
       });
+
+  }
+
+  ngAfterViewInit(): void {
+    console.log('app-ngOnInit', 'get child value from parent at ts ：' + this.dataComponent.name);
+  }
+
+  showChildClick(name: string) {
+    console.log('app-showChildClick', name);
   }
 }
 

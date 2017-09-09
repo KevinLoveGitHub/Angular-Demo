@@ -1,5 +1,8 @@
 <md-card style="background-color: #536DFE; text-align: center; padding: 10px">
   <span style="color: white; font-size: 16px; ">{{title}}</span>
 </md-card>
-<app-data></app-data>
+<app-data #data inputValue="Hello" (outputValue)="showChildClick($event)"></app-data>
+
+<!--通过变量获取子组件内部非 private 的值-->
+<div style="width: 100%;height: 100px;">get child value from parent at html ：{{data.name}}</div>
 <router-outlet></router-outlet>
