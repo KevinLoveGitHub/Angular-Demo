@@ -6,6 +6,9 @@ import {Directive, ElementRef, Input, HostListener} from '@angular/core';
 
 export class ClickDirective {
 
+  @Input()
+  defaultName: string;
+
   @Input('appMyClick')
   name: string;
 
@@ -14,6 +17,6 @@ export class ClickDirective {
 
   @HostListener('click')
   onClick() {
-    console.log('myClick：' + this.name);
+    console.log('myClick：' + this.name + ' ' + this.defaultName);
   }
 }
