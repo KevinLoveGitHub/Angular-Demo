@@ -13,8 +13,10 @@ import {HttpModule} from '@angular/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdGridListModule, MdCardModule, MdIconModule, MdButtonModule} from '@angular/material';
 import {DetailComponent} from './detail/detail.component';
-import { DataComponent } from './data/data.component';
-import { FormsModule } from '@angular/forms';
+import {DataComponent} from './data/data.component';
+import {FormsModule} from '@angular/forms';
+import {ClickDirective} from './directive/click.directive';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     CarouselComponent,
     DetailComponent,
     DataComponent,
+    ClickDirective
   ],
   imports: [
     BrowserModule,
