@@ -6,7 +6,8 @@
   <button [ngClass]="cssBig" (click)="onClick(name)">Click</button>
 
   <div appMyClick="Hello World" defaultName="div" [ngClass]="currentClassed">[ngClass] binding to the classes
-    property</div>
+    property
+  </div>
 
   <table border=1>
     <tr>
@@ -33,4 +34,6 @@
 
   <input #myinput value="123">
   <div>{{myinput.value}}</div>
+
+  <div>利用管道显示性别：{{sex | mySex}}</div>
 </div>

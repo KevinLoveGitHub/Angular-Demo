@@ -19,6 +19,7 @@ export class DataComponent implements OnInit, AfterViewInit {
   isRed = false;
   isUnchanged = true;
   currentIndex = '2';
+  sex = 1;
 
   @ViewChild('myinput')
   input: HTMLInputElement;

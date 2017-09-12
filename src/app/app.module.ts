@@ -16,6 +16,7 @@ import {DetailComponent} from './detail/detail.component';
 import {DataComponent} from './data/data.component';
 import {FormsModule} from '@angular/forms';
 import {ClickDirective} from './directive/click.directive';
+import {SexPipe} from './pipes/sex.pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {ClickDirective} from './directive/click.directive';
     CarouselComponent,
     DetailComponent,
     DataComponent,
-    ClickDirective
+    ClickDirective,
+    SexPipe
   ],
   imports: [
     BrowserModule,
