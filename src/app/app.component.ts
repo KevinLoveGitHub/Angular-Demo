@@ -1,10 +1,11 @@
-import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, OnInit, ViewChild, AfterViewInit, Inject} from '@angular/core';
 import {Title, DomSanitizer} from '@angular/platform-browser';
 import {Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import {MdIconRegistry} from '@angular/material';
 import {DataComponent} from './data/data.component';
+import {APP_CONFIG, AppConfig} from './app-config';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,9 @@ export class AppComponent implements OnInit, AfterViewInit {
               private router: Router,
               private activatedRoute: ActivatedRoute,
               iconRegistry: MdIconRegistry,
-              sanitizer: DomSanitizer) {
+              sanitizer: DomSanitizer,
+              @Inject(APP_CONFIG) config) {
+    console.log(config.title + ' === ' + config.apiEndpoint);
     iconRegistry.addSvgIcon(
       'back',
       sanitizer.bypassSecurityTrustResourceUrl('../assets/back.svg')

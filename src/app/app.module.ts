@@ -17,6 +17,9 @@ import {DataComponent} from './data/data.component';
 import {FormsModule} from '@angular/forms';
 import {ClickDirective} from './directive/click.directive';
 import {SexPipe} from './pipes/sex.pipe';
+import {SharedModule} from './share/share.module';
+import {Logger, NewLogger, OldLogger, ProvidersComponent, silentLogger} from './providers.component';
+import {APP_CONFIG, HERO_DI_CONFIG} from './app-config';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,8 @@ import {SexPipe} from './pipes/sex.pipe';
     DetailComponent,
     DataComponent,
     ClickDirective,
-    SexPipe
+    SexPipe,
+    // ProvidersComponent
   ],
   imports: [
     BrowserModule,
@@ -39,9 +43,17 @@ import {SexPipe} from './pipes/sex.pipe';
     MdCardModule,
     MdIconModule,
     MdButtonModule,
+    // SharedModule
   ],
-  providers: [GankService],
+  providers: [
+    GankService,
+    {provide: APP_CONFIG, useValue: HERO_DI_CONFIG},
+    {provide: Logger, useClass: NewLogger},
+    {provide: OldLogger, useExisting: Logger},
+    {provide: silentLogger, useValue: silentLogger},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 }
+

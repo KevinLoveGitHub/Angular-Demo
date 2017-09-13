@@ -1,9 +1,14 @@
-import {Component, OnInit, AfterViewInit, ViewChild, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, AfterViewInit, ViewChild, Input, Output, EventEmitter, Inject} from '@angular/core';
+import {Logger, OldLogger} from '../providers.component';
+import {LOG, MyLoggerService} from '../loggers/my-logger.service';
 
 @Component({
   selector: 'app-data',
   templateUrl: './data.component.html',
   styleUrls: ['./data.component.css'],
+  providers: [
+    {provide: LOG, useClass: MyLoggerService}
+  ]
 })
 export class DataComponent implements OnInit, AfterViewInit {
 
@@ -39,7 +44,10 @@ export class DataComponent implements OnInit, AfterViewInit {
   @Output() outputValue = new EventEmitter<string>();
 
 
-  constructor() {
+  constructor(private log: Logger, private oldLog: OldLogger, @Inject(LOG) myLog: MyLoggerService) {
+    log.log('DataComponent');
+    oldLog.log('DataComponent');
+    myLog.log('DataComponent');
   }
 
   ngOnInit() {
