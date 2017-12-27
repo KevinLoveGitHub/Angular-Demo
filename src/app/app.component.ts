@@ -52,7 +52,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log('app-ngOnInit', 'get child value from parent at ts ：' + this.dataComponent.name);
+    // console.log('app-ngOnInit', 'get child value from parent at ts ：' + this.dataComponent.name);
   }
 
   showChildClick(name: string) {

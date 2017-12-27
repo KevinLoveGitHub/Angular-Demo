@@ -21,12 +21,12 @@ const routes: Routes = [
     component: DetailComponent,
     data: {title: '图片详情'}
   },
-  {
-    path: '',
-    redirectTo: 'carousel',
-    pathMatch: 'full',
-    data: {title: '首页'}
-  }
+  // {
+  //   path: '',
+  //   redirectTo: 'carousel',
+  //   pathMatch: 'full',
+  //   data: {title: '首页'}
+  // }
 ];
 
 @NgModule({

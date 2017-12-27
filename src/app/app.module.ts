@@ -11,15 +11,16 @@ import {AppRoutingModule} from './app-routing.module';
 import {HttpModule} from '@angular/http';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MdGridListModule, MdCardModule, MdIconModule, MdButtonModule} from '@angular/material';
+import {MdButtonModule, MdCardModule, MdGridListModule, MdIconModule} from '@angular/material';
 import {DetailComponent} from './detail/detail.component';
 import {DataComponent} from './data/data.component';
 import {FormsModule} from '@angular/forms';
 import {ClickDirective} from './directive/click.directive';
 import {SexPipe} from './pipes/sex.pipe';
-import {SharedModule} from './share/share.module';
-import {Logger, NewLogger, OldLogger, ProvidersComponent, silentLogger} from './providers.component';
+import {Logger, NewLogger, OldLogger, silentLogger} from './providers.component';
 import {APP_CONFIG, HERO_DI_CONFIG} from './app-config';
+import {DragComponent} from './drag/drag.component';
+import { PageComponent } from './page/page.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,8 @@ import {APP_CONFIG, HERO_DI_CONFIG} from './app-config';
     DataComponent,
     ClickDirective,
     SexPipe,
+    DragComponent,
+    PageComponent,
     // ProvidersComponent
   ],
   imports: [
