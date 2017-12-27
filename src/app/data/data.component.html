@@ -9,7 +9,7 @@
     property
   </div>
 
-  <table border=1>
+  <table [ngStyle]="{'display': isBig ? 'none':'inline'}" border=1>
     <tr>
       <td [attr.colspan]="1 + 1">One-Two</td>
     </tr>

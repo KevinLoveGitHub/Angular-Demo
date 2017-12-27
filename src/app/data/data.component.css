@@ -16,3 +16,12 @@
 .bg {
   background-color: deepskyblue;
 }
+
+.container-wrap {
+  width: 100px;
+  height:100%;
+  overflow-x:scroll;
+  overflow-y:hidden;
+}
+
+.element::-webkit-scrollbar {display:none}

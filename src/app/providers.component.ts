@@ -37,9 +37,6 @@ export class NewLogger extends Logger {
 
 export const silentLogger = {
   logs: ['Silent logger says "Shhhhh!". Provided via "useValue"'],
-  log: () => {
-    console.log('silentLogger');
-  }
 };
 
 @Component({
