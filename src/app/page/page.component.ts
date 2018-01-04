@@ -38,7 +38,21 @@ export class PageComponent implements OnInit {
         const leftOrRightContains = leftContains || rightContains;
         const topLeftContains = topContains && leftOrRightContains;
         const bottomAndLeftContains = bottomContains && leftOrRightContains;
-        exist =  topLeftContains || bottomAndLeftContains;
+
+        const rightAndLeftInner = event.right > location.right && event.left < location.left;
+        const topAndBottomInner = event.top < location.top && event.bottom > location.bottom;
+        const top_Bottom_RightInner = topAndBottomInner && rightContains;
+        const top_Bottom_LeftInner = topAndBottomInner && leftContains;
+        const right_Left_TopInner = rightAndLeftInner && topContains;
+        const right_Left_BottomInner = rightAndLeftInner && bottomContains;
+
+        exist = topLeftContains
+          || bottomAndLeftContains
+          || top_Bottom_RightInner
+          || top_Bottom_LeftInner
+          || right_Left_TopInner
+          || right_Left_BottomInner
+          || (rightAndLeftInner && topAndBottomInner);
       }
     });
     if (exist) {
@@ -50,11 +64,17 @@ export class PageComponent implements OnInit {
   }
 
   addLocation(id: any, event: any) {
-    this.allLocation.set(id, event);
+    if (event != null) {
+      this.allLocation.set(id, event);
+    }
   }
 
   initViewLocation(view: any) {
     view.scrollX = view.marginLeft;
     view.scrollY = view.marginTop;
+    if (view.marginTop > 700) {
+      view.viewHeight = view.viewInitHeight;
+      view.viewWidth = view.viewInitWidth;
+    }
   }
 }

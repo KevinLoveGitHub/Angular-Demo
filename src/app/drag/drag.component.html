@@ -1,8 +1,9 @@
-<div style="width: 150px; height: 150px;background-color: red; position: absolute"
+<div style="background-color: red; position: absolute"
+     [style.width.px]="viewWidth"
+     [style.height.px]="viewHeight"
      [style.margin-top.px]="scrollY"
      [style.margin-left.px]="scrollX"
      (touchstart)="myTouchStart($event)"
      (touchmove)="myTouch($event)"
      (touchend)="myTouchEnd($event)">
-  {{scrollX}}
 </div>

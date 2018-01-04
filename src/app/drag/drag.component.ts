@@ -11,12 +11,13 @@ export class DragComponent implements OnInit {
   tmpPageY: number;
   @Input() scrollX = 100;
   @Input() scrollY = 780;
+  @Input() viewInitWidth = 150;
+  @Input() viewInitHeight = 150;
+  @Input() zoom: number;
   marginLeft: number;
   marginTop: number;
   maxMarginLeft: number;
   maxMarginTop: number;
-  width: number;
-  height: number;
   topBorder: number;
   bottomBorder: number;
   leftBorder: number;
@@ -24,11 +25,9 @@ export class DragComponent implements OnInit {
 
   initMarginLeft: number;
   initMarginTop: number;
-  viewInitWidth = -1;
-  viewInitHeight = -1;
 
-  viewWidth = -1;
-  viewHeight = -1;
+  viewWidth: number;
+  viewHeight: number;
 
   @Output() change: EventEmitter<any> = new EventEmitter<any>();
 
@@ -36,6 +35,8 @@ export class DragComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.viewWidth = this.viewInitWidth;
+    this.viewHeight = this.viewInitHeight;
     this.tmpPageX = 0;
     this.tmpPageY = 0;
     this.initMarginLeft = this.scrollX;
@@ -66,20 +67,18 @@ export class DragComponent implements OnInit {
     let y = pageY - this.tmpPageY + this.marginTop;
     y = y < 0 ? 0 : y;
     y = y > this.maxMarginTop ? this.maxMarginTop : y;
-    y = y + this.height > 940 ? 940 - this.height : y;
+    y = y + this.viewHeight > 940 ? 940 - this.viewHeight : y;
     this.scrollY = y;
 
 
-    if (this.scrollY < 700 && this.viewWidth < 0 && this.viewHeight < 0) {
-      this.viewWidth = this.width * 3;
-      this.viewHeight = this.height * 3;
+    if (this.scrollY < 700 && this.viewWidth === this.viewInitWidth && this.viewHeight === this.viewInitHeight) {
+      this.viewWidth = this.viewInitWidth * this.zoom;
+      this.viewHeight = this.viewInitHeight * this.zoom;
       event.currentTarget.style.width = this.viewWidth + 'px';
       event.currentTarget.style.height = this.viewHeight + 'px';
     }
 
-    this.height = Number(event.currentTarget.style.height.slice(0, -2));
-    this.width = Number(event.currentTarget.style.width.slice(0, -2));
-    this.maxMarginLeft = window.innerWidth - this.width - this.initMarginLeft;
+    this.maxMarginLeft = window.innerWidth - this.viewWidth - 60;
 
 
     // console.log('pageX: ' + pageX);
@@ -96,17 +95,17 @@ export class DragComponent implements OnInit {
     console.log('myTouchStart');
     this.tmpPageX = 0;
     this.tmpPageY = 0;
-    this.width = Number(event.currentTarget.style.width.slice(0, -2));
-    this.height = Number(event.currentTarget.style.height.slice(0, -2));
+    // this.width = Number(event.currentTarget.style.width.slice(0, -2));
+    // this.height = Number(event.currentTarget.style.height.slice(0, -2));
     this.marginLeft = Number(event.currentTarget.style.marginLeft.slice(0, -2));
     this.marginTop = Number(event.currentTarget.style.marginTop.slice(0, -2));
-
-    if (this.viewInitHeight < 0) {
-      this.viewInitHeight = this.height;
-    }
-    if (this.viewInitWidth < 0) {
-      this.viewInitWidth = this.width;
-    }
+    //
+    // if (this.viewInitHeight < 0) {
+    //   this.viewInitHeight = this.height;
+    // }
+    // if (this.viewInitWidth < 0) {
+    //   this.viewInitWidth = this.width;
+    // }
 
     // this.maxMarginTop = window.innerHeight - this.height;
   }
@@ -115,8 +114,8 @@ export class DragComponent implements OnInit {
     console.log('myTouchEnd');
     this.topBorder = this.scrollY;
     this.leftBorder = this.scrollX;
-    this.bottomBorder = this.scrollY + this.height;
-    this.rightBorder = this.scrollX + this.width;
+    this.bottomBorder = this.scrollY + this.viewHeight;
+    this.rightBorder = this.scrollX + this.viewWidth;
 
     let location;
     if (this.bottomBorder > 700) {
@@ -125,8 +124,8 @@ export class DragComponent implements OnInit {
       style.height = this.viewInitHeight + 'px';
       style.marginTop = this.initMarginTop + 'px';
       style.marginLeft = this.initMarginLeft + 'px';
-      this.viewWidth = -1;
-      this.viewHeight = -1;
+      this.viewWidth = this.viewInitWidth;
+      this.viewHeight = this.viewInitHeight;
     } else {
       location = {
         'top': this.topBorder,
