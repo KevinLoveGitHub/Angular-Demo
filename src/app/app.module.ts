@@ -21,6 +21,7 @@ import {Logger, NewLogger, OldLogger, silentLogger} from './providers.component'
 import {APP_CONFIG, HERO_DI_CONFIG} from './app-config';
 import {DragComponent} from './drag/drag.component';
 import { PageComponent } from './page/page.component';
+import { SelectComponent } from './select/select.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { PageComponent } from './page/page.component';
     SexPipe,
     DragComponent,
     PageComponent,
+    SelectComponent,
     // ProvidersComponent
   ],
   imports: [
