@@ -13,6 +13,8 @@ export class SelectComponent implements OnInit {
   row = new Array(34);
   column = new Array(12);
   selectedView: any;
+  hasPutView: any;
+
 
   constructor(private renderer: Renderer2, private el: ElementRef) {
   }
@@ -60,15 +62,38 @@ export class SelectComponent implements OnInit {
 
     const width = Number(style.width.slice(0, -2)) * 2 + 'px';
     const height = Number(style.height.slice(0, -2)) * 2 + 'px';
-    const view = this.createView(this.selectedView, marginLeft, marginTop);
+    if (this.hasPutView == null) {
+      this.hasPutView = this.createView(this.selectedView, marginLeft, marginTop);
+    } else {
+      this.moveView(this.hasPutView, marginLeft, marginTop);
+    }
+
     console.log(this.selectedView);
   }
 
-  createView(view: any, marginLeft: number, marginTop: number): ElementRef {
+  moveView(view: any, marginLeft: any, marginTop: any) {
+    console.log(view);
+    marginLeft = this.getMarginLeft(marginLeft);
+    marginTop = this.getMarginTop(marginTop);
+    view.style.marginLeft = marginLeft;
+    view.style.marginTop = marginTop;
+  }
+
+  createView(view: any, marginLeft: any, marginTop: any): ElementRef {
     const srcUrl = view.currentSrc;
     const style = view.style;
     const width = Number(style.width.slice(0, -2)) * 2 + 'px';
     const height = Number(style.height.slice(0, -2)) * 2 + 'px';
+    // const leftRemainder = marginLeft % 50;
+    // marginLeft = marginLeft - leftRemainder;
+
+    marginLeft = this.getMarginLeft(marginLeft);
+
+
+    // const topRemainder = marginTop % 62;
+    // marginTop = marginTop - topRemainder;
+
+    marginTop = this.getMarginTop(marginTop);
 
     const div = this.renderer.createElement('div');
     const img = this.renderer.createElement('img');
@@ -80,10 +105,10 @@ export class SelectComponent implements OnInit {
       img, 'height', height
     );
     this.renderer.setStyle(
-      img, 'margin-left', marginLeft + 110 + 'px'
+      img, 'margin-left', marginLeft
     );
     this.renderer.setStyle(
-      img, 'margin-top', marginTop + 'px'
+      img, 'margin-top', marginTop
     );
 
     this.renderer.setStyle(
@@ -92,7 +117,19 @@ export class SelectComponent implements OnInit {
 
     this.renderer.appendChild(div, img);
     this.renderer.appendChild(this.root.nativeElement, div);
-    return div;
+    return img;
+  }
+
+  getMarginLeft(marginLeft: any): string {
+    const leftRemainder = marginLeft % 50;
+    marginLeft = marginLeft - leftRemainder;
+    return marginLeft + 110 + 'px';
+  }
+
+  getMarginTop(marginTop: any): string {
+    const topRemainder = marginTop % 62;
+    marginTop = marginTop - topRemainder;
+    return marginTop + 'px';
   }
 
 
