@@ -10,23 +10,78 @@ export class SelectComponent implements OnInit {
   @ViewChild('root')
   root: ElementRef;
 
-  row = new Array(34);
-  column = new Array(12);
+  row = new Array(18);
+  column = new Array(8);
+  rowValue: number;
+  columnValue: number;
   selectedView: any;
   hasPutView: any;
-
+  zoom = 0.9;
+  rootWidth: number;
+  rootHeight: number;
+  rootMarginLeft: number;
+  viewHeight: number;
+  views = [];
 
   constructor(private renderer: Renderer2, private el: ElementRef) {
   }
 
   ngOnInit() {
+    this.rootWidth = 1800 * this.zoom;
+    this.rootHeight = 800 * this.zoom;
+    this.viewHeight = 160;
+    this.rootMarginLeft = (innerWidth - this.rootWidth) / 2;
+    this.rowValue = this.rootWidth / this.row.length;
+    this.columnValue = this.rootHeight / this.column.length;
+
+    const view1 = {
+      id: '1',
+      img: './assets/clock.jpg',
+      width : '600',
+      height : '800'
+    };
+    const view2 = {
+      id: '2',
+      img: './assets/clock.jpg',
+      width : '400',
+      height : '300'
+    };
+    const view3 = {
+      id: '3',
+      img: './assets/clock.jpg',
+      width : '400',
+      height : '300'
+    };
+    const view4 = {
+      id: '4',
+      img: './assets/clock.jpg',
+      width : '800',
+      height : '500'
+    };
+    const view5 = {
+      id: '5',
+      img: './assets/clock.jpg',
+      width : '400',
+      height : '400'
+    };
+    const view6 = {
+      id: '6',
+      img: './assets/clock.jpg',
+      width : '400',
+      height : '400'
+    };
+
+    this.views.push(view1, view2, view3, view4, view5, view6);
   }
 
 
-  selectView(view: any, event: any) {
-    this.selectedView = view;
+  selectView(event: any) {
+    if (this.selectedView != null) {
+      this.selectedView.style.border = null;
+    }
+    this.selectedView = event.target;
     this.selectedView.style.border = 'aqua solid 10px';
-    console.log(view);
+    console.log(this.selectedView);
 
     // const div = this.renderer.createElement('div');
     // const text = this.renderer.createText('Hello world!');
@@ -82,8 +137,8 @@ export class SelectComponent implements OnInit {
   createView(view: any, marginLeft: any, marginTop: any): ElementRef {
     const srcUrl = view.currentSrc;
     const style = view.style;
-    const width = Number(style.width.slice(0, -2)) * 2 + 'px';
-    const height = Number(style.height.slice(0, -2)) * 2 + 'px';
+    const width = Number(style.width.slice(0, -2)) * 4.5 + 'px';
+    const height = Number(style.height.slice(0, -2)) * 4.5 + 'px';
     // const leftRemainder = marginLeft % 50;
     // marginLeft = marginLeft - leftRemainder;
 
@@ -121,13 +176,13 @@ export class SelectComponent implements OnInit {
   }
 
   getMarginLeft(marginLeft: any): string {
-    const leftRemainder = marginLeft % 50;
+    const leftRemainder = marginLeft % 90;
     marginLeft = marginLeft - leftRemainder;
-    return marginLeft + 110 + 'px';
+    return marginLeft + 150 + 'px';
   }
 
   getMarginTop(marginTop: any): string {
-    const topRemainder = marginTop % 62;
+    const topRemainder = marginTop % 90;
     marginTop = marginTop - topRemainder;
     return marginTop + 'px';
   }
