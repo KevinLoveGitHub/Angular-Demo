@@ -1,0 +1,32 @@
+<div class="home-normal-page">
+  <div class="title-left" style="margin-left: 60px">一年级一班</div>
+  <div #root style="width: 1920px; height: 940px; margin-top: 10px;">
+    <!--<div style="width: 1700px; height: 744px; margin-left: 110px; background-color: gray;position:absolute;"-->
+    <!--(click)="putView($event)"></div>-->
+
+
+    <table border="2" bgcolor="red" style="background-color: white;position: absolute;"
+           [style.width.px]="rootWidth"
+           [style.height.px]="rootHeight"
+           [style.margin-left.px]="rootMarginLeft"
+           (click)="putView($event)">
+      <tr *ngFor="let item of column; let i = index" style="width: 100%" [style.height.px]="rowValue">
+        <td *ngFor="let item of row; let i = index" [style.width.px]="columnValue" [style.height.px]="columnValue"></td>
+      </tr>
+    </table>
+
+
+    <div [style.margin-left.px]="rootMarginLeft"
+         [style.margin-top.px]="rootHeight + 40"
+         style="position: absolute;">
+      <img *ngFor="let item of views; let i = index"
+           [style.margin-left.px]="i == 0 ? 0 : 20"
+           [style.height.px]="viewHeight"
+           [style.width.px]="item.width / (item.height / viewHeight)"
+           [src]="item.img"
+           [id]="item.id"
+           (click)="selectView($event)">
+    </div>
+  </div>
+
+</div>

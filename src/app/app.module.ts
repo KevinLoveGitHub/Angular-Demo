@@ -22,6 +22,7 @@ import {APP_CONFIG, HERO_DI_CONFIG} from './app-config';
 import {DragComponent} from './drag/drag.component';
 import { PageComponent } from './page/page.component';
 import { SelectComponent } from './select/select.component';
+import { AvailableViewComponent } from './available-view/available-view.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { SelectComponent } from './select/select.component';
     DragComponent,
     PageComponent,
     SelectComponent,
+    AvailableViewComponent,
     // ProvidersComponent
   ],
   imports: [
