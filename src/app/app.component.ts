@@ -25,29 +25,29 @@ export class AppComponent implements OnInit, AfterViewInit {
               iconRegistry: MdIconRegistry,
               sanitizer: DomSanitizer,
               @Inject(APP_CONFIG) config) {
-    console.log(config.title + ' === ' + config.apiEndpoint);
-    iconRegistry.addSvgIcon(
-      'back',
-      sanitizer.bypassSecurityTrustResourceUrl('../assets/back.svg')
-    );
+    // console.log(config.title + ' === ' + config.apiEndpoint);
+    // iconRegistry.addSvgIcon(
+    //   'back',
+    //   sanitizer.bypassSecurityTrustResourceUrl('../assets/back.svg')
+    // );
   }
 
   ngOnInit(): void {
-    this.router.events
-      .filter(event => event instanceof NavigationEnd)
-      .map(() => this.activatedRoute)
-      .map(route => {
-        while (route.firstChild) {
-          route = route.firstChild;
-        }
-        return route;
-      })
-      .mergeMap(route => route.data)
-      .subscribe((event) => {
-        console.log('NavigationEnd:', event['title']);
-        this.titleService.setTitle(event['title']);
-        this.title = event['title'];
-      });
+    // this.router.events
+    //   .filter(event => event instanceof NavigationEnd)
+    //   .map(() => this.activatedRoute)
+    //   .map(route => {
+    //     while (route.firstChild) {
+    //       route = route.firstChild;
+    //     }
+    //     return route;
+    //   })
+    //   .mergeMap(route => route.data)
+    //   .subscribe((event) => {
+    //     console.log('NavigationEnd:', event['title']);
+    //     this.titleService.setTitle(event['title']);
+    //     this.title = event['title'];
+    //   });
 
   }
 

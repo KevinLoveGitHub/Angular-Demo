@@ -231,6 +231,11 @@ export class SelectComponent implements OnInit {
     this.renderer.listen(cancelDiv, 'click', event => {
       event.stopPropagation();
       this.renderer.removeChild(view.parent, view);
+      const key = this.isPutView.index;
+      const isHas = this.viewContainer.has(key);
+      if (isHas) {
+        this.viewContainer.delete(key);
+      }
       this.isPutView = null;
     });
     this.renderer.listen(confirmDiv, 'click', event => {
@@ -248,8 +253,8 @@ export class SelectComponent implements OnInit {
 
       // this.isPutView.children[1].style.display = 'none';
 
-      div.style.display = 'none';
       this.saveView(this.isPutView);
+      div.style.display = 'none';
       this.isPutView = null;
       if (this.selectedView != null) {
         this.selectedView.style.border = null;
@@ -267,9 +272,40 @@ export class SelectComponent implements OnInit {
 
   checkViewLocation(view: any): boolean {
     const viewLocations = this.getViewLocationInfo(view);
-    const overLeft = viewLocations.rightLocation > this.rootWidth + this.rootMarginLeft;
-    const overBottom = viewLocations.bottomLocation > this.rootHeight;
-    return !(overLeft || overBottom);
+
+    let exist = false;
+    this.viewContainer.forEach((value, key) => {
+      if (view.index !== key && !exist) {
+        const location = this.getViewLocationInfo(value);
+        const topContains = viewLocations.top >= location.top && viewLocations.top < location.bottom;
+        const bottomContains = viewLocations.bottom <= location.bottom && viewLocations.bottom > location.top;
+        const leftContains = viewLocations.left >= location.left && viewLocations.left < location.right;
+        const rightContains = viewLocations.right <= location.right && viewLocations.right > location.left;
+
+        const leftOrRightContains = leftContains || rightContains;
+        const topLeftContains = topContains && leftOrRightContains;
+        const bottomAndLeftContains = bottomContains && leftOrRightContains;
+
+        const rightAndLeftInner = viewLocations.right > location.right && viewLocations.left < location.left;
+        const topAndBottomInner = viewLocations.top < location.top && viewLocations.bottom > location.bottom;
+        const top_Bottom_RightInner = topAndBottomInner && rightContains;
+        const top_Bottom_LeftInner = topAndBottomInner && leftContains;
+        const right_Left_TopInner = rightAndLeftInner && topContains;
+        const right_Left_BottomInner = rightAndLeftInner && bottomContains;
+
+        exist = topLeftContains
+          || bottomAndLeftContains
+          || top_Bottom_RightInner
+          || top_Bottom_LeftInner
+          || right_Left_TopInner
+          || right_Left_BottomInner
+          || (rightAndLeftInner && topAndBottomInner);
+      }
+    });
+
+    const overLeft = viewLocations.right > this.rootWidth + this.rootMarginLeft;
+    const overBottom = viewLocations.bottom > this.rootHeight;
+    return !(overLeft || overBottom || exist);
   }
 
   /**
@@ -285,10 +321,10 @@ export class SelectComponent implements OnInit {
     const bottomLocation = Number(style.height.slice(0, -2)) + topLocation;
     const rightLocation = Number(style.width.slice(0, -2)) + leftLocation;
     margins = {
-      topLocation: topLocation,
-      leftLocation: leftLocation,
-      bottomLocation: bottomLocation,
-      rightLocation: rightLocation
+      top: topLocation,
+      left: leftLocation,
+      bottom: bottomLocation,
+      right: rightLocation
     };
     return margins;
   }
