@@ -15,7 +15,7 @@ export class SelectComponent implements OnInit {
   rowValue: number;
   columnValue: number;
   selectedView: any;
-  hasPutView: any;
+  isPutView: any;
   zoom = 0.9;
   rootWidth: number;
   rootHeight: number;
@@ -23,6 +23,8 @@ export class SelectComponent implements OnInit {
   viewHeight: number;
   views = [];
   optionViewHeight: number;
+  viewContainer: Map<number, any>;
+  createIndex: number;
 
   constructor(private renderer: Renderer2, private el: ElementRef) {
   }
@@ -35,7 +37,8 @@ export class SelectComponent implements OnInit {
     this.rootMarginLeft = (innerWidth - this.rootWidth) / 2;
     this.rowValue = this.rootWidth / this.row.length;
     this.columnValue = this.rootHeight / this.column.length;
-
+    this.viewContainer = new Map<number, any>();
+    this.createIndex = 0;
     const view1 = {
       id: '1',
       img: './assets/clock.jpg',
@@ -88,58 +91,29 @@ export class SelectComponent implements OnInit {
       this.selectedView.style.border = null;
     }
     // 置空已经放置的组件对象
-    if (this.hasPutView != null) {
-      this.hasPutView = null;
+    if (this.isPutView != null) {
+      this.renderer.removeChild(this.isPutView.parent, this.isPutView);
+      this.isPutView = null;
     }
     this.selectedView = target;
     this.selectedView.style.border = 'aqua solid 10px';
     console.log(this.selectedView);
-
-    // const div = this.renderer.createElement('div');
-    // const text = this.renderer.createText('Hello world!');
-    // this.renderer.setStyle(
-    //   div,
-    //   'border-left',
-    //   '2px dashed olive'
-    // );
-    //
-    // this.renderer.setStyle(
-    //   div,
-    //   'font-size',
-    //   '5em'
-    // );
-    //
-    // const img = this.renderer.createElement('img');
-    // this.renderer.setAttribute(img, 'src', 'assets/clock.jpg');
-    //
-    //
-    // this.renderer.appendChild(div, img);
-    // this.renderer.appendChild(div, text);
-    // this.renderer.appendChild(this.el.nativeElement, div);
   }
 
   putView(event: any) {
-    if (this.selectedView == null) {
+    if (this.selectedView == null && this.isPutView == null) {
       return;
     }
-    const style = this.selectedView.style;
-    const srcUrl = this.selectedView.currentSrc;
     const marginLeft = event.layerX;
     const marginTop = event.layerY;
 
-    const view = this.views.find(v => v.id === this.selectedView.id);
-    const width = view.width * this.zoom + 'px';
-    const height = view.height * this.zoom + 'px';
-
     // const width = Number(style.width.slice(0, -2)) * 2 + 'px';
     // const height = Number(style.height.slice(0, -2)) * 2 + 'px';
-    if (this.hasPutView == null) {
-      this.hasPutView = this.createView(this.selectedView, marginLeft, marginTop);
+    if (this.isPutView == null) {
+      this.isPutView = this.createView(this.selectedView, marginLeft, marginTop);
     } else {
-      this.moveView(this.hasPutView, marginLeft, marginTop);
+      this.moveView(this.isPutView, marginLeft, marginTop);
     }
-
-    console.log(this.selectedView);
   }
 
   moveView(view: any, marginLeft: any, marginTop: any) {
@@ -176,13 +150,24 @@ export class SelectComponent implements OnInit {
     imgStyle.width = width;
     imgStyle.height = height;
     imgStyle.position = 'absolute';
-    div.style.marginLeft = marginLeft;
-    div.style.marginTop = marginTop;
-    div.style.position = 'absolute';
+    const divStyle = div.style;
+    divStyle.width = width;
+    divStyle.height = height;
+    divStyle.marginLeft = marginLeft;
+    divStyle.marginTop = marginTop;
+    divStyle.position = 'absolute';
+    div.id = selectedView.id;
+    div.index = this.createIndex++;
 
+    const _this = this;
     // 设置click事件
-    this.renderer.listen(img, 'click', function (event) {
-      console.log(event);
+    this.renderer.listen(div, 'click', function (event) {
+      _this.isPutView = event.currentTarget;
+      const _style = _this.isPutView.children[1].style;
+      if (_style.display === 'none') {
+        _style.display = 'flex';
+      }
+      console.log(divStyle.display);
     });
 
     this.renderer.appendChild(div, img);
@@ -243,17 +228,69 @@ export class SelectComponent implements OnInit {
     this.renderer.appendChild(div, cancelDiv);
     this.renderer.appendChild(div, confirmDiv);
 
-    this.renderer.listen(cancelDiv, 'click', () => {
+    this.renderer.listen(cancelDiv, 'click', event => {
+      event.stopPropagation();
       this.renderer.removeChild(view.parent, view);
-      this.hasPutView = null;
+      this.isPutView = null;
     });
     this.renderer.listen(confirmDiv, 'click', event => {
+      event.stopPropagation();
+      if (this.isPutView == null) {
+        this.isPutView = this.viewContainer.get(view.index);
+      }
+
+
+      const isValid = this.checkViewLocation(this.isPutView);
+      if (!isValid) {
+        console.warn('位置无效，请重新设置');
+        return;
+      }
+
+      // this.isPutView.children[1].style.display = 'none';
+
       div.style.display = 'none';
-      this.hasPutView = null;
-      this.selectedView.style.border = null;
-      this.selectedView = null;
+      this.saveView(this.isPutView);
+      this.isPutView = null;
+      if (this.selectedView != null) {
+        this.selectedView.style.border = null;
+        this.selectedView = null;
+      }
     });
     return div;
+  }
+
+
+  saveView(view: any) {
+    this.viewContainer.set(view.index, view);
+    console.log('saveView: ' + this.viewContainer);
+  }
+
+  checkViewLocation(view: any): boolean {
+    const viewLocations = this.getViewLocationInfo(view);
+    const overLeft = viewLocations.rightLocation > this.rootWidth + this.rootMarginLeft;
+    const overBottom = viewLocations.bottomLocation > this.rootHeight;
+    return !(overLeft || overBottom);
+  }
+
+  /**
+   * 获取元素的 margin 值
+   * @param view 元素
+   * @returns {any} marginTop marginLeft
+   */
+  getViewLocationInfo(view: any): any {
+    let margins: {};
+    const style = view.style;
+    const topLocation = Number(style.marginTop.slice(0, -2));
+    const leftLocation = Number(style.marginLeft.slice(0, -2));
+    const bottomLocation = Number(style.height.slice(0, -2)) + topLocation;
+    const rightLocation = Number(style.width.slice(0, -2)) + leftLocation;
+    margins = {
+      topLocation: topLocation,
+      leftLocation: leftLocation,
+      bottomLocation: bottomLocation,
+      rightLocation: rightLocation
+    };
+    return margins;
   }
 
 
