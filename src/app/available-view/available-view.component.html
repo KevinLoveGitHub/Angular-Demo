@@ -1,20 +1,23 @@
 <div class="home-normal-page">
   <div class="title-left" style="margin-left: 60px">一年级一班</div>
-  <div #root style="width: 1920px; height: 940px; margin-top: 10px;">
-    <!--<div style="width: 1700px; height: 744px; margin-left: 110px; background-color: gray;position:absolute;"-->
-    <!--(click)="putView($event)"></div>-->
-
-
-    <table border="2" bgcolor="red" style="background-color: white;position: absolute;"
-           [style.width.px]="rootWidth"
-           [style.height.px]="rootHeight"
-           [style.margin-left.px]="rootMarginLeft"
-           (click)="putView($event)">
-      <tr *ngFor="let item of column; let i = index" style="width: 100%" [style.height.px]="rowValue">
-        <td *ngFor="let item of row; let i = index" [style.width.px]="columnValue" [style.height.px]="columnValue"></td>
-      </tr>
-    </table>
-
+  <div style="width: 1920px; height: 940px; margin-top: 10px;"
+       (click)="rootClick()">
+    <div #root style="position: absolute;"
+         [style.width.px]="rootWidth"
+         [style.height.px]="rootHeight"
+         [style.margin-left.px]="rootMarginLeft">
+      <table border="2" bgcolor="red" style="background-color: white; position: absolute;">
+        <tr *ngFor="let item of column; let x = index" style="width: 100%" [style.height.px]="rowValue">
+          <td *ngFor="let item of row; let y = index"
+              [style.width.px]="columnValue"
+              [style.height.px]="columnValue"
+              (click)="smallViewContainer?.get(x * 18 + y)?.clickEnable ? putView($event) : locationError($event)"
+              [style.background-color]="smallViewContainer?.get(x * 18 + y)?.clickEnable ? 'lightgreen' : 'white'">{{x *
+            18 + y}}
+          </td>
+        </tr>
+      </table>
+    </div>
 
     <div [style.margin-left.px]="rootMarginLeft"
          [style.margin-top.px]="rootHeight + 40"

@@ -23,7 +23,8 @@ export class AvailableViewComponent implements OnInit {
   viewHeight: number;
   views = [];
   optionViewHeight: number;
-  viewContainer: Map<number, any>;
+  hasPutViewContainer: Map<number, any>;
+  smallViewContainer: Map<number, any>;
   createIndex: number;
 
   constructor(private renderer: Renderer2, private el: ElementRef) {
@@ -37,8 +38,10 @@ export class AvailableViewComponent implements OnInit {
     this.rootMarginLeft = (innerWidth - this.rootWidth) / 2;
     this.rowValue = this.rootWidth / this.row.length;
     this.columnValue = this.rootHeight / this.column.length;
-    this.viewContainer = new Map<number, any>();
+    this.hasPutViewContainer = new Map<number, any>();
+    this.smallViewContainer = new Map<number, any>();
     this.createIndex = 0;
+    this.initSmallViewContainer(this.row.length, this.column.length);
     const view1 = {
       id: '1',
       img: './assets/clock.jpg',
@@ -79,6 +82,19 @@ export class AvailableViewComponent implements OnInit {
     this.views.push(view1, view2, view3, view4, view5, view6);
   }
 
+  initSmallViewContainer(rowLength: number, columnLength: number) {
+    for (let x = 0; x < columnLength; x++) {
+      for (let y = 0; y < rowLength; y++) {
+        const _view = {
+          x: y * this.rowValue,
+          y: x * this.columnValue,
+          clickEnable: true
+        };
+        this.smallViewContainer.set(x * 18 + y, _view);
+      }
+    }
+  }
+
 
   selectView(event: any) {
     const target = event.target;
@@ -97,7 +113,16 @@ export class AvailableViewComponent implements OnInit {
     }
     this.selectedView = target;
     this.selectedView.style.border = 'aqua solid 10px';
+
+    const view = this.views.find(v => v.id === this.selectedView.id);
+    const width = view.width * this.zoom;
+    const height = view.height * this.zoom;
+    this.renderSmallView(width, height);
     console.log(this.selectedView);
+  }
+
+  rootClick() {
+    console.log('root click');
   }
 
   putView(event: any) {
@@ -116,6 +141,61 @@ export class AvailableViewComponent implements OnInit {
     }
   }
 
+  locationError(event: any) {
+    alert('位置不可用');
+  }
+
+
+  renderSmallView(width: number, height: number) {
+    const _this = this;
+    if (this.hasPutViewContainer.size === 0) {
+      this.smallViewContainer.forEach(function (smallViewValue, key) {
+        smallViewValue.clickEnable = true;
+      });
+      return;
+    }
+
+    this.smallViewContainer.forEach(function (smallViewValue, key) {
+      let isDisEnable = false;
+      _this.hasPutViewContainer.forEach(function (putView) {
+        if (isDisEnable) {
+          return;
+        }
+        const locationInfo = _this.getViewLocationInfo(putView);
+        const offsetX = smallViewValue.x + width;
+        const overRight = smallViewValue.x >= locationInfo.right;
+        const offsetY = smallViewValue.y + height;
+        const overBottom = smallViewValue.y >= locationInfo.bottom;
+
+        if (key === 0) {
+          debugger;
+        }
+
+        smallViewValue.clickEnable = false;
+
+        if (overRight || overBottom) {
+          if (offsetX <= _this.rootWidth && offsetY <= _this.rootHeight) {
+            smallViewValue.clickEnable = true;
+          }
+          return;
+        }
+
+        if (offsetX <= locationInfo.left && offsetY <= _this.rootHeight) {
+          smallViewValue.clickEnable = true;
+          return;
+        }
+
+        if (offsetY <= locationInfo.top && offsetY <= _this.rootHeight) {
+          smallViewValue.clickEnable = true;
+          return;
+        }
+
+        isDisEnable = true;
+      });
+    });
+  }
+
+
   moveView(view: any, marginLeft: any, marginTop: any) {
     marginLeft = this.getMarginLeft(marginLeft);
     marginTop = this.getMarginTop(marginTop);
@@ -125,22 +205,10 @@ export class AvailableViewComponent implements OnInit {
 
   createView(selectedView: any, marginLeft: any, marginTop: any): ElementRef {
     const srcUrl = selectedView.currentSrc;
-    const style = selectedView.style;
     const view = this.views.find(v => v.id === selectedView.id);
     const width = view.width * this.zoom + 'px';
     const height = view.height * this.zoom + 'px';
-
-    // const width = Number(style.width.slice(0, -2)) * 4.5 + 'px';
-    // const height = Number(style.height.slice(0, -2)) * 4.5 + 'px';
-    // const leftRemainder = marginLeft % 50;
-    // marginLeft = marginLeft - leftRemainder;
-
     marginLeft = this.getMarginLeft(marginLeft);
-
-
-    // const topRemainder = marginTop % 62;
-    // marginTop = marginTop - topRemainder;
-
     marginTop = this.getMarginTop(marginTop);
 
     const div = this.renderer.createElement('div');
@@ -163,6 +231,13 @@ export class AvailableViewComponent implements OnInit {
     // 设置click事件
     this.renderer.listen(div, 'click', function (event) {
       _this.isPutView = event.currentTarget;
+      const key = _this.isPutView.index;
+      const isHas = _this.hasPutViewContainer.has(key);
+      if (isHas) {
+        _this.hasPutViewContainer.delete(key);
+        const locationInfo = _this.getViewLocationInfo(_this.isPutView);
+        _this.renderSmallView(locationInfo.width, locationInfo.height);
+      }
       const _style = _this.isPutView.children[1].style;
       if (_style.display === 'none') {
         _style.display = 'flex';
@@ -177,15 +252,11 @@ export class AvailableViewComponent implements OnInit {
   }
 
   getMarginLeft(marginLeft: any): string {
-    const leftRemainder = marginLeft % 90;
-    marginLeft = marginLeft - leftRemainder;
-    return marginLeft + 150 + 'px';
+    return Math.floor(marginLeft / this.columnValue) * this.columnValue + 'px';
   }
 
   getMarginTop(marginTop: any): string {
-    const topRemainder = marginTop % 90;
-    marginTop = marginTop - topRemainder;
-    return marginTop + 'px';
+    return Math.floor(marginTop / this.rowValue) * this.rowValue + 'px';
   }
 
   getOptionsView(view: any, width: string, height: string, marginTop: string, marginLeft: string): ElementRef {
@@ -232,16 +303,16 @@ export class AvailableViewComponent implements OnInit {
       event.stopPropagation();
       this.renderer.removeChild(view.parent, view);
       const key = this.isPutView.index;
-      const isHas = this.viewContainer.has(key);
+      const isHas = this.hasPutViewContainer.has(key);
       if (isHas) {
-        this.viewContainer.delete(key);
+        this.hasPutViewContainer.delete(key);
       }
       this.isPutView = null;
     });
     this.renderer.listen(confirmDiv, 'click', event => {
       event.stopPropagation();
       if (this.isPutView == null) {
-        this.isPutView = this.viewContainer.get(view.index);
+        this.isPutView = this.hasPutViewContainer.get(view.index);
       }
 
 
@@ -266,15 +337,15 @@ export class AvailableViewComponent implements OnInit {
 
 
   saveView(view: any) {
-    this.viewContainer.set(view.index, view);
-    console.log('saveView: ' + this.viewContainer);
+    this.hasPutViewContainer.set(view.index, view);
+    console.log('saveView: ' + this.hasPutViewContainer);
   }
 
   checkViewLocation(view: any): boolean {
     const viewLocations = this.getViewLocationInfo(view);
 
     let exist = false;
-    this.viewContainer.forEach((value, key) => {
+    this.hasPutViewContainer.forEach((value, key) => {
       if (view.index !== key && !exist) {
         const location = this.getViewLocationInfo(value);
         const topContains = viewLocations.top >= location.top && viewLocations.top < location.bottom;
@@ -303,7 +374,7 @@ export class AvailableViewComponent implements OnInit {
       }
     });
 
-    const overLeft = viewLocations.right > this.rootWidth + this.rootMarginLeft;
+    const overLeft = viewLocations.right > this.rootWidth;
     const overBottom = viewLocations.bottom > this.rootHeight;
     return !(overLeft || overBottom || exist);
   }
@@ -316,11 +387,15 @@ export class AvailableViewComponent implements OnInit {
   getViewLocationInfo(view: any): any {
     let margins: {};
     const style = view.style;
+    const width = Number(style.width.slice(0, -2));
+    const height = Number(style.height.slice(0, -2));
     const topLocation = Number(style.marginTop.slice(0, -2));
     const leftLocation = Number(style.marginLeft.slice(0, -2));
     const bottomLocation = Number(style.height.slice(0, -2)) + topLocation;
     const rightLocation = Number(style.width.slice(0, -2)) + leftLocation;
     margins = {
+      width: width,
+      height: height,
       top: topLocation,
       left: leftLocation,
       bottom: bottomLocation,
