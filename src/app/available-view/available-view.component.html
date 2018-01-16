@@ -1,7 +1,7 @@
 <div class="home-normal-page">
   <div class="title-left" style="margin-left: 60px">一年级一班</div>
   <div style="width: 1920px; height: 940px; margin-top: 10px;"
-       (click)="rootClick()">
+       (click)="rootClick($event)">
     <div #root style="position: absolute;"
          [style.width.px]="rootWidth"
          [style.height.px]="rootHeight"
@@ -11,7 +11,7 @@
           <td *ngFor="let item of row; let y = index"
               [style.width.px]="columnValue"
               [style.height.px]="columnValue"
-              (click)="smallViewContainer?.get(x * 18 + y)?.clickEnable ? putView($event) : locationError($event)"
+              (click)="smallViewContainer?.get(x * 18 + y)?.clickEnable ? putView($event) : locationError()"
               [style.background-color]="smallViewContainer?.get(x * 18 + y)?.clickEnable ? 'lightgreen' : 'white'">{{x *
             18 + y}}
           </td>

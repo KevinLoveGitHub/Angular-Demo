@@ -121,11 +121,18 @@ export class AvailableViewComponent implements OnInit {
     console.log(this.selectedView);
   }
 
-  rootClick() {
+  rootClick(event: any) {
+    if (this.isPutView != null && this.isPutView.reEdit) {
+      const locationInfo = this.getViewLocationInfo(this.isPutView);
+      const marginLeft = event.layerX + locationInfo.left;
+      const marginTop = event.layerY + locationInfo.top;
+      this.moveView(this.isPutView, marginLeft, marginTop);
+    }
     console.log('root click');
   }
 
   putView(event: any) {
+    event.stopPropagation();
     if (this.selectedView == null && this.isPutView == null) {
       return;
     }
@@ -141,7 +148,7 @@ export class AvailableViewComponent implements OnInit {
     }
   }
 
-  locationError(event: any) {
+  locationError() {
     alert('位置不可用');
   }
 
@@ -150,7 +157,12 @@ export class AvailableViewComponent implements OnInit {
     const _this = this;
     if (this.hasPutViewContainer.size === 0) {
       this.smallViewContainer.forEach(function (smallViewValue, key) {
-        smallViewValue.clickEnable = true;
+        smallViewValue.clickEnable = false;
+        const offsetY = smallViewValue.y + height;
+        const offsetX = smallViewValue.x + width;
+        if (offsetX <= _this.rootWidth && offsetY <= _this.rootHeight) {
+          smallViewValue.clickEnable = true;
+        }
       });
       return;
     }
@@ -199,6 +211,13 @@ export class AvailableViewComponent implements OnInit {
   moveView(view: any, marginLeft: any, marginTop: any) {
     marginLeft = this.getMarginLeft(marginLeft);
     marginTop = this.getMarginTop(marginTop);
+    const column = Math.floor(Number(marginLeft.slice(0, -2)) / this.columnValue);
+    const row = Math.floor(Number(marginTop.slice(0, -2)) / this.rowValue);
+    const index = (row * this.row.length) + column;
+    if (!this.smallViewContainer.get(index).clickEnable) {
+      this.locationError();
+      return;
+    }
     view.style.marginLeft = marginLeft;
     view.style.marginTop = marginTop;
   }
@@ -226,6 +245,7 @@ export class AvailableViewComponent implements OnInit {
     divStyle.position = 'absolute';
     div.id = selectedView.id;
     div.index = this.createIndex++;
+    div.reEdit = false;
 
     const _this = this;
     // 设置click事件
@@ -241,6 +261,8 @@ export class AvailableViewComponent implements OnInit {
       const _style = _this.isPutView.children[1].style;
       if (_style.display === 'none') {
         _style.display = 'flex';
+        _this.isPutView.reEdit = true;
+        event.stopPropagation();
       }
       console.log(divStyle.display);
     });
