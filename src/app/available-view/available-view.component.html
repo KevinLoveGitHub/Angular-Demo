@@ -6,22 +6,24 @@
          [style.width.px]="rootWidth"
          [style.height.px]="rootHeight"
          [style.margin-left.px]="rootMarginLeft">
-      <table border="2" bgcolor="red" style="background-color: white; position: absolute;">
+      <!--<table border="2" bgcolor="red" style="background-color: white; position: absolute;">-->
+      <table bgcolor="red" style="background-color: white; position: absolute;">
         <tr *ngFor="let item of column; let x = index" style="width: 100%" [style.height.px]="rowValue">
           <td *ngFor="let item of row; let y = index"
               [style.width.px]="columnValue"
               [style.height.px]="columnValue"
               (click)="smallViewContainer?.get(x * 18 + y)?.clickEnable ? putView($event) : locationError()"
-              [style.background-color]="smallViewContainer?.get(x * 18 + y)?.clickEnable ? 'lightgreen' : 'white'">{{x *
-            18 + y}}
+              [style.background-color]="smallViewContainer?.get(x * 18 + y)?.clickEnable ? 'lightgreen' : 'white'">
+            <!--{{x * 18 + y}}-->
           </td>
         </tr>
       </table>
     </div>
 
     <div [style.margin-left.px]="rootMarginLeft"
+         [style.width.px]="1920 - rootMarginLeft * 2"
          [style.margin-top.px]="rootHeight + 40"
-         style="position: absolute;">
+         style="position: absolute;overflow-x: auto;white-space: nowrap;">
       <img *ngFor="let item of views; let i = index"
            [style.margin-left.px]="i == 0 ? 0 : 20"
            [style.height.px]="viewHeight"

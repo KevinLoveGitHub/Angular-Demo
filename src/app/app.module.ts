@@ -23,7 +23,7 @@ import {DragComponent} from './drag/drag.component';
 import { PageComponent } from './page/page.component';
 import { SelectComponent } from './select/select.component';
 import { AvailableViewComponent } from './available-view/available-view.component';
-
+import {HttpClientModule} from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +50,7 @@ import { AvailableViewComponent } from './available-view/available-view.componen
     MdCardModule,
     MdIconModule,
     MdButtonModule,
+    HttpClientModule,
     // SharedModule
   ],
   providers: [
