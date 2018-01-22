@@ -4,6 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {ListComponent} from './list/list.component';
 import {CarouselComponent} from './carousel/carousel.component';
 import {DetailComponent} from "./detail/detail.component";
+import {PreviewComponent} from "./preview/preview.component";
 
 const routes: Routes = [
   {
@@ -21,12 +22,18 @@ const routes: Routes = [
     component: DetailComponent,
     data: {title: '图片详情'}
   },
+  {
+    path: 'preview',
+    component: PreviewComponent,
+    data: {title: '图片详情'}
+  },
   // {
   //   path: '',
   //   redirectTo: 'carousel',
   //   pathMatch: 'full',
   //   data: {title: '首页'}
   // }
+
 ];
 
 @NgModule({

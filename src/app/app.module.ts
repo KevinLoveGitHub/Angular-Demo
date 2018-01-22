@@ -26,6 +26,7 @@ import { AvailableViewComponent } from './available-view/available-view.componen
 import {HttpClientModule} from '@angular/common/http';
 import { MultiPageComponent } from './multi-page/multi-page.component';
 import 'hammerjs';
+import { PreviewComponent } from './preview/preview.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import 'hammerjs';
     PageComponent,
     SelectComponent,
     AvailableViewComponent,
+    PreviewComponent,
     MultiPageComponent,
     // ProvidersComponent
   ],
@@ -49,12 +51,12 @@ import 'hammerjs';
     HttpModule,
     FormsModule,
     CarouselModule.forRoot(),
-    AppRoutingModule,
     MdGridListModule,
     MdCardModule,
     MdIconModule,
     MdButtonModule,
     HttpClientModule,
+    AppRoutingModule
     // SharedModule
   ],
   providers: [

@@ -1,5 +1,6 @@
 import {Component, OnInit, Renderer2, ElementRef, ViewChild} from '@angular/core';
-import {ViewInfo} from "./viewInfo";
+import {ViewInfo} from './viewInfo';
+import {Router} from '@angular/router'
 
 
 @Component({
@@ -35,7 +36,7 @@ export class MultiPageComponent implements OnInit {
   pages = new Array(5);
   currentPageIndex = 0;
 
-  constructor(private renderer: Renderer2, private el: ElementRef) {
+  constructor(private renderer: Renderer2, private el: ElementRef, private router: Router) {
   }
 
   ngOnInit() {
@@ -453,5 +454,6 @@ export class MultiPageComponent implements OnInit {
     this.pages[this.currentPageIndex].smallViewState = this.smallViewContainer;
     this.pages[this.currentPageIndex].hasPutView = this.hasSaveViewInfo;
     console.log('savePageData', this.pages);
+    this.router.navigate(['preview']);
   }
 }
