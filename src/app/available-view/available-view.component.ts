@@ -165,7 +165,7 @@ export class AvailableViewComponent implements OnInit {
   }
 
   rootClick(event: any) {
-    if (this.isPutView != null && this.isPutView.reEdit) {
+    if (this.isPutView != null && this.isPutView.edit) {
       const locationInfo = this.getViewLocationInfo(this.isPutView);
       const marginLeft = event.layerX + locationInfo.left;
       const marginTop = event.layerY + locationInfo.top;
@@ -304,7 +304,7 @@ export class AvailableViewComponent implements OnInit {
       const _style = _this.isPutView.children[1].style;
       if (_style.display === 'none') {
         _style.display = 'flex';
-        _this.isPutView.reEdit = true;
+        _this.isPutView.edit = true;
         event.stopPropagation();
       }
       console.log(divStyle.display);

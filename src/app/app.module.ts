@@ -24,6 +24,7 @@ import { PageComponent } from './page/page.component';
 import { SelectComponent } from './select/select.component';
 import { AvailableViewComponent } from './available-view/available-view.component';
 import {HttpClientModule} from '@angular/common/http';
+import { MultiPageComponent } from './multi-page/multi-page.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +38,7 @@ import {HttpClientModule} from '@angular/common/http';
     PageComponent,
     SelectComponent,
     AvailableViewComponent,
+    MultiPageComponent,
     // ProvidersComponent
   ],
   imports: [

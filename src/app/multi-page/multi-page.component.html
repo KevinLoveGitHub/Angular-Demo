@@ -1,0 +1,63 @@
+<div class="home-normal-page">
+  <div class="title-left" style="margin-left: 60px">一年级一班</div>
+  <div style="width: 1920px; height: 940px; margin-top: 10px;"
+       (click)="rootClick($event)">
+    <div #root style="position: absolute;"
+         [style.width.px]="rootWidth"
+         [style.height.px]="rootHeight"
+         [style.margin-left.px]="rootMarginLeft">
+      <table border="2" bgcolor="red" style="background-color: white; position: absolute;">
+        <tr *ngFor="let item of column; let x = index" style="width: 100%" [style.height.px]="rowValue">
+          <td *ngFor="let item of row; let y = index"
+              [style.width.px]="columnValue"
+              [style.height.px]="columnValue"
+              (click)="smallViewContainer?.get(x * 18 + y)?.clickEnable ? putView($event) : locationError()"
+              [style.background-color]="smallViewContainer?.get(x * 18 + y)?.clickEnable ? 'lightgreen' : 'white'">
+            {{x * 18 + y}}
+          </td>
+        </tr>
+      </table>
+      <div *ngFor="let item of pageViewContainer;" style="position: absolute"
+           (click)="viewClick($event)"
+           [attr.index]="item.index"
+           [style.margin-top]="item.marginTop"
+           [style.margin-left]="item.marginLeft">
+        <img style="position: absolute"
+             [src]="item.img"
+             [style.width.px]="item.width"
+             [style.height.px]="item.height">
+
+        <div *ngIf="item.edit" style="margin-right: 5px; margin-left: 5px; position: absolute;
+        display: flex; flex-direction: row; justify-content: space-between;
+         align-items: center; background-color: rgba(0,0,0,0.5)"
+             [attr.index]="item.index"
+             [style.width.px]="item.width - 10"
+             [style.height.px]="optionViewHeight"
+             [style.margin-top.px]="item.height - optionViewHeight">
+          <div style="height: 100%; width: 50%; display: flex; justify-content: center; align-items: center"
+               (click)="confirmClick($event)">
+            <img src="./assets/confirm.png">
+          </div>
+          <div style="height: 100%; width: 50%; display: flex; justify-content: center; align-items: center"
+               (click)="cancelClick($event)">
+            <img src="./assets/cancel.png">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div [style.margin-left.px]="rootMarginLeft"
+         [style.width.px]="1920 - rootMarginLeft * 2"
+         [style.margin-top.px]="rootHeight + 40"
+         style="position: absolute;overflow-x: auto;white-space: nowrap;">
+      <img *ngFor="let item of views; let i = index"
+           [style.margin-left.px]="i == 0 ? 0 : 20"
+           [style.height.px]="viewHeight"
+           [style.width.px]="item.width / (item.height / viewHeight)"
+           [src]="item.img"
+           [id]="item.id"
+           (click)="selectView($event)">
+    </div>
+  </div>
+
+</div>
