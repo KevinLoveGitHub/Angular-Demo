@@ -2,6 +2,12 @@
   <div class="title-left" style="margin-left: 60px">一年级一班</div>
   <div style="width: 1920px; height: 940px; margin-top: 10px;"
        (click)="rootClick($event)">
+
+    <button style="background-color: white; position: absolute; width: 100px; height: 100px; right: 10px; top: 10px;
+    font-size: 2rem"
+    (click)="savePageData($event)">
+      Save
+    </button>
     <div #root style="position: absolute;"
          (swipeleft)="swipe(currentPageIndex, $event)"
          (swiperight)="swipe(currentPageIndex, $event)"

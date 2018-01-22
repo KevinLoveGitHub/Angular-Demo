@@ -434,7 +434,7 @@ export class MultiPageComponent implements OnInit {
     this.pageViewContainer = pageData.component;
     let smallViewState = pageData.smallViewState;
     if (!smallViewState) {
-       pageData.smallViewState = smallViewState = this.initSmallViewContainer(this.row.length, this.column.length);
+      pageData.smallViewState = smallViewState = this.initSmallViewContainer(this.row.length, this.column.length);
     }
     this.smallViewContainer = smallViewState;
     this.hasSaveViewInfo = pageData.hasPutView;
@@ -448,4 +448,10 @@ export class MultiPageComponent implements OnInit {
   }
 
 
+  savePageData(event: any) {
+    this.pages[this.currentPageIndex].component = this.pageViewContainer;
+    this.pages[this.currentPageIndex].smallViewState = this.smallViewContainer;
+    this.pages[this.currentPageIndex].hasPutView = this.hasSaveViewInfo;
+    console.log('savePageData', this.pages);
+  }
 }
