@@ -25,6 +25,8 @@ import { SelectComponent } from './select/select.component';
 import { AvailableViewComponent } from './available-view/available-view.component';
 import {HttpClientModule} from '@angular/common/http';
 import { MultiPageComponent } from './multi-page/multi-page.component';
+import 'hammerjs';
+
 @NgModule({
   declarations: [
     AppComponent,

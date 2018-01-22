@@ -9,6 +9,8 @@ import {ViewInfo} from "./viewInfo";
 })
 export class MultiPageComponent implements OnInit {
 
+  SWIPE_ACTION = {LEFT: 'swipeleft', RIGHT: 'swiperight'};
+
   @ViewChild('root')
   root: ElementRef;
 
@@ -30,6 +32,8 @@ export class MultiPageComponent implements OnInit {
   createIndex: number;
   pageViewContainer = [];
   hasSaveViewInfo = [];
+  pages = new Array(5);
+  currentPageIndex = 0;
 
   constructor(private renderer: Renderer2, private el: ElementRef) {
   }
@@ -45,7 +49,13 @@ export class MultiPageComponent implements OnInit {
     this.hasPutViewContainer = new Map<number, any>();
     this.smallViewContainer = new Map<number, any>();
     this.createIndex = 0;
-    this.initSmallViewContainer(this.row.length, this.column.length);
+    for (let k = 0; k < this.pages.length; k++) {
+      this.pages[k] = {
+        component: [],
+        hasPutView: []
+      };
+    }
+    this.smallViewContainer = this.initSmallViewContainer(this.row.length, this.column.length);
     const view1 = {
       id: '1',
       img: './assets/个人信息中心.png',
@@ -129,7 +139,8 @@ export class MultiPageComponent implements OnInit {
     this.views.push(view1, view2, view3, view4, view5, view6, view7, view8, view9, view10, view11, view12, view13);
   }
 
-  initSmallViewContainer(rowLength: number, columnLength: number) {
+  initSmallViewContainer(rowLength: number, columnLength: number): Map<number, any> {
+    const smallViewState = new Map();
     for (let x = 0; x < columnLength; x++) {
       for (let y = 0; y < rowLength; y++) {
         const _view = {
@@ -137,9 +148,10 @@ export class MultiPageComponent implements OnInit {
           y: x * this.columnValue,
           clickEnable: true
         };
-        this.smallViewContainer.set(x * 18 + y, _view);
+        smallViewState.set(x * 18 + y, _view);
       }
     }
+    return smallViewState;
   }
 
 
@@ -240,9 +252,9 @@ export class MultiPageComponent implements OnInit {
         const offsetY = smallViewValue.y + height;
         const overBottom = smallViewValue.y >= locationInfo.bottom;
 
-        if (key === 16) {
-          debugger;
-        }
+        // if (key === 16) {
+        //   debugger;
+        // }
 
         smallViewValue.clickEnable = false;
 
@@ -392,5 +404,48 @@ export class MultiPageComponent implements OnInit {
     };
     return margins;
   }
+
+  swipe(currentIndex: number, action: any) {
+    action = action.type;
+    console.log(currentIndex, action);
+    if (currentIndex > this.pages.length || currentIndex < 0) {
+      return;
+    }
+
+    let nextIndex = 0;
+
+    // next
+    if (action === this.SWIPE_ACTION.LEFT) {
+      const isLast = currentIndex === this.pages.length - 1;
+      nextIndex = isLast ? 0 : currentIndex + 1;
+    }
+
+    // previous
+    if (action === this.SWIPE_ACTION.RIGHT) {
+      const isFirst = currentIndex === 0;
+      nextIndex = isFirst ? this.pages.length - 1 : currentIndex - 1;
+    }
+
+    this.pages[this.currentPageIndex].component = this.pageViewContainer;
+    this.pages[this.currentPageIndex].smallViewState = this.smallViewContainer;
+    this.pages[this.currentPageIndex].hasPutView = this.hasSaveViewInfo;
+    this.currentPageIndex = nextIndex;
+    const pageData = this.pages[nextIndex];
+    this.pageViewContainer = pageData.component;
+    let smallViewState = pageData.smallViewState;
+    if (!smallViewState) {
+       pageData.smallViewState = smallViewState = this.initSmallViewContainer(this.row.length, this.column.length);
+    }
+    this.smallViewContainer = smallViewState;
+    this.hasSaveViewInfo = pageData.hasPutView;
+    this.isPutViewInfo = null;
+    // 置空当前选中组件的border
+    if (this.selectedView != null) {
+      this.selectedView.style.border = null;
+    }
+    this.selectedView = null;
+    console.log('swipe', nextIndex);
+  }
+
 
 }
