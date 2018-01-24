@@ -1,31 +1,31 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
-import {ListComponent} from './list/list.component';
-import {CarouselComponent} from './carousel/carousel.component';
-import {DetailComponent} from "./detail/detail.component";
-import {PreviewComponent} from "./preview/preview.component";
+import {MultiPageComponent} from './multi-page/multi-page.component';
 
 const routes: Routes = [
+  // {
+  //   path: 'list/:index',
+  //   component: ListComponent,
+  //   data: {title: '照片列表'}
+  // },
+  // {
+  //   path: 'carousel',
+  //   component: CarouselComponent,
+  //   data: {title: '首页轮播图'}
+  // },
+  // {
+  //   path: 'detail',
+  //   component: DetailComponent,
+  //   data: {title: '图片详情'}
+  // },
+  // {
+  //   path: 'preview',
+  //   component: PreviewComponent,
+  // },
   {
-    path: 'list/:index',
-    component: ListComponent,
-    data: {title: '照片列表'}
-  },
-  {
-    path: 'carousel',
-    component: CarouselComponent,
-    data: {title: '首页轮播图'}
-  },
-  {
-    path: 'detail',
-    component: DetailComponent,
-    data: {title: '图片详情'}
-  },
-  {
-    path: 'preview',
-    component: PreviewComponent,
-    data: {title: '图片详情'}
+    path: 'multi-page',
+    component: MultiPageComponent,
   },
   // {
   //   path: '',
@@ -37,7 +37,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {enableTracing: true})],
+  imports: [RouterModule.forRoot(routes, {enableTracing: false})],
   exports: [RouterModule]
 })
 
