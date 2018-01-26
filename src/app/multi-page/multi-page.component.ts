@@ -211,8 +211,8 @@ export class MultiPageComponent implements OnInit {
   changeViewInfo(viewInfo: ViewInfo, marginLeft: any, marginTop: any) {
     marginLeft = this.getMarginLeft(marginLeft);
     marginTop = this.getMarginTop(marginTop);
-    const column = Math.floor(Number(marginLeft.slice(0, -2)) / this.columnValue);
-    const row = Math.floor(Number(marginTop.slice(0, -2)) / this.rowValue);
+    const column = marginLeft / this.columnValue;
+    const row = marginTop / this.rowValue;
     const index = (row * this.row.length) + column;
     if (!this.smallViewContainer.get(index).clickEnable) {
       this.locationError();
@@ -285,8 +285,8 @@ export class MultiPageComponent implements OnInit {
   moveView(view: any, marginLeft: any, marginTop: any) {
     marginLeft = this.getMarginLeft(marginLeft);
     marginTop = this.getMarginTop(marginTop);
-    const column = Math.floor(Number(marginLeft.slice(0, -2)) / this.columnValue);
-    const row = Math.floor(Number(marginTop.slice(0, -2)) / this.rowValue);
+    const column = marginLeft / this.columnValue;
+    const row = marginTop / this.rowValue;
     const index = (row * this.row.length) + column;
     if (!this.smallViewContainer.get(index).clickEnable) {
       this.locationError();
@@ -370,12 +370,12 @@ export class MultiPageComponent implements OnInit {
     this.isPutViewInfo = null;
   }
 
-  getMarginLeft(marginLeft: any): string {
-    return Math.floor(marginLeft / this.columnValue) * this.columnValue + 'px';
+  getMarginLeft(marginLeft: any): number {
+    return Math.floor(marginLeft / this.columnValue) * this.columnValue;
   }
 
-  getMarginTop(marginTop: any): string {
-    return Math.floor(marginTop / this.rowValue) * this.rowValue + 'px';
+  getMarginTop(marginTop: any): number {
+    return Math.floor(marginTop / this.rowValue) * this.rowValue;
   }
 
 
@@ -391,8 +391,8 @@ export class MultiPageComponent implements OnInit {
    */
   getViewLocationInfo(view: any): any {
     let margins: {};
-    const topLocation = Number(view.marginTop.slice(0, -2));
-    const leftLocation = Number(view.marginLeft.slice(0, -2));
+    const topLocation = view.marginTop;
+    const leftLocation = view.marginLeft;
     const bottomLocation = view.height + topLocation;
     const rightLocation = view.width + leftLocation;
     margins = {
@@ -453,7 +453,15 @@ export class MultiPageComponent implements OnInit {
     this.pages[this.currentPageIndex].component = this.pageViewContainer;
     this.pages[this.currentPageIndex].smallViewState = this.smallViewContainer;
     this.pages[this.currentPageIndex].hasPutView = this.hasSaveViewInfo;
-    console.log('savePageData', this.pages);
-    this.router.navigate(['preview']);
+
+    for (const page of this.pages) {
+      for (const component of page.component) {
+        component.height /= this.zoom;
+        component.width /= this.zoom;
+        component.marginLeft /= this.zoom;
+        component.marginTop /= this.zoom;
+      }
+    }
+    console.log('savePageData', JSON.stringify(this.pages[0].component));
   }
 }

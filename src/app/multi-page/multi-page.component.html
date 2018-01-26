@@ -29,8 +29,8 @@
       <div *ngFor="let item of pageViewContainer;" style="position: absolute"
            (click)="viewClick($event)"
            [attr.index]="item.index"
-           [style.margin-top]="item.marginTop"
-           [style.margin-left]="item.marginLeft">
+           [style.margin-top.px]="item.marginTop"
+           [style.margin-left.px]="item.marginLeft">
         <img style="position: absolute"
              [src]="item.img"
              [style.width.px]="item.width"
