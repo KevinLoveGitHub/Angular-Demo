@@ -8,7 +8,6 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  .then(res => console.log(res.instance.constructor.name + ' 启动'))
-  .catch(error => console.log('启动出错：' + error.toString()));
+platformBrowserDynamic().bootstrapModule(AppModule);
+  // .then(res => console.log(res.instance.constructor.name + ' 启动'))
+  // .catch(error => console.log('启动出错：' + error.toString()));

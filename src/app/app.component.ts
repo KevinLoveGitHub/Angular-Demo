@@ -22,8 +22,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   constructor(private titleService: Title,
               private router: Router,
               private activatedRoute: ActivatedRoute,
-              iconRegistry: MdIconRegistry,
-              sanitizer: DomSanitizer,
               @Inject(APP_CONFIG) config) {
     // console.log(config.title + ' === ' + config.apiEndpoint);
     // iconRegistry.addSvgIcon(
@@ -48,7 +46,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     //     this.titleService.setTitle(event['title']);
     //     this.title = event['title'];
     //   });
+    this.router.navigate(['multi-page']);
 
+  }
+
+  nav(){
+    this.router.navigate(['/preview']);
   }
 
   ngAfterViewInit(): void {

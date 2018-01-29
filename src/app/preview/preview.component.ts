@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 export class PreviewComponent implements OnInit {
 
   constructor(private router: Router) {
+    console.log('PreviewComponent');
   }
 
   ngOnInit() {

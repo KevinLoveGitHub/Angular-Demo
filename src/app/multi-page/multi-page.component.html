@@ -55,17 +55,19 @@
       </div>
     </div>
 
+    <div style="display: flex; align-items: center; justify-content: center; position: absolute; width: 100%;"
+         [style.margin-top.px]="rootHeight + 15">
+      <div *ngFor="let page of pages; let i = index"
+           [style.background-color]="i == currentPageIndex ? 'red' : 'white' "
+           style="width: 40px; height: 10px; margin-left: 20px"></div>
+    </div>
 
     <div [style.margin-left.px]="rootMarginLeft"
          [style.width.px]="1920 - rootMarginLeft * 2"
          [style.margin-top.px]="rootHeight + 20"
          style="position: absolute;overflow-x: auto;white-space: nowrap;">
 
-      <div style="display: flex; align-items: center; justify-content: center; position: absolute; width: 100%;">
-        <div *ngFor="let page of pages; let i = index"
-             [style.background-color]="i == currentPageIndex ? 'red' : 'white' "
-             style="width: 40px; height: 10px; margin-left: 20px"></div>
-      </div>
+
 
       <img *ngFor="let item of views; let i = index"
            style="margin-top: 20px;"
@@ -79,3 +81,4 @@
   </div>
 
 </div>
+<router-outlet></router-outlet>

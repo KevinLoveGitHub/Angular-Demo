@@ -1,6 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import 'hammerjs';
+import {RouterModule, Routes} from '@angular/router';
 
 import {AppComponent} from './app.component';
 import {ListComponent} from './list/list.component';
@@ -28,6 +29,9 @@ import { MultiPageComponent } from './multi-page/multi-page.component';
 import 'hammerjs';
 import { PreviewComponent } from './preview/preview.component';
 
+const routes: Routes = [
+  {path: 'preview', component: PreviewComponent},
+];
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +50,9 @@ import { PreviewComponent } from './preview/preview.component';
     // ProvidersComponent
   ],
   imports: [
+    // RouterModule.forRoot(
+    //   routes,
+    // ),
     BrowserModule,
     // BrowserAnimationsModule,
     // HttpModule,
@@ -53,18 +60,18 @@ import { PreviewComponent } from './preview/preview.component';
     // CarouselModule.forRoot(),
     // MdGridListModule,
     // MdCardModule,
-    MdIconModule,
+    // MdIconModule,
     // MdButtonModule,
     // HttpClientModule,
     AppRoutingModule
     // SharedModule
   ],
   providers: [
-    GankService,
+    // GankService,
     {provide: APP_CONFIG, useValue: HERO_DI_CONFIG},
-    {provide: Logger, useClass: NewLogger},
-    {provide: OldLogger, useExisting: Logger},
-    {provide: silentLogger, useValue: silentLogger},
+    // {provide: Logger, useClass: NewLogger},
+    // {provide: OldLogger, useExisting: Logger},
+    // {provide: silentLogger, useValue: silentLogger},
   ],
   bootstrap: [AppComponent]
 })

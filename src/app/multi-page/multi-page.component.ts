@@ -462,6 +462,7 @@ export class MultiPageComponent implements OnInit {
         component.marginTop /= this.zoom;
       }
     }
+    this.router.navigate(['preview']);
     console.log('savePageData', JSON.stringify(this.pages[0].component));
   }
 }
